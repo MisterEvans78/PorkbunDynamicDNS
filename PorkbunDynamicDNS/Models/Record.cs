@@ -1,4 +1,4 @@
-﻿namespace PorkbunDynamicDNS.Models.PorkbunApi
+﻿namespace PorkbunDynamicDNS.Models
 {
     public class Record
     {

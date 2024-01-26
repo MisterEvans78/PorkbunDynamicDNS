@@ -1,6 +1,5 @@
 ﻿using PorkbunDynamicDNS;
 using PorkbunDynamicDNS.Models;
-using PorkbunDynamicDNS.Models.PorkbunApi;
 
 string domain = ConfigurationManager.Get("Domain");
 string[] subdomains = ConfigurationManager.Get("Subdomains").Split(',');

@@ -1,8 +1,7 @@
-﻿using PorkbunDynamicDNS.Models.PorkbunApi;
+﻿using PorkbunDynamicDNS.Models;
 using System.Net.Http.Json;
-using System.Text.Json;
 
-namespace PorkbunDynamicDNS.Models
+namespace PorkbunDynamicDNS
 {
     public class PorkbunAPI
     {

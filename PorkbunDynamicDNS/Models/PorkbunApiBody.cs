@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace PorkbunDynamicDNS.Models.PorkbunApi
+namespace PorkbunDynamicDNS.Models
 {
     public class PorkbunApiBody
     {
