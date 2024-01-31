@@ -24,19 +24,18 @@ namespace PorkbunDynamicDNS
             };
 
             HttpResponseMessage response = await _client.PostAsJsonAsync("ping", body);
-            PorkbunApiResponse? apiResponse = await response.Content.ReadFromJsonAsync<PorkbunApiResponse>();
 
             if (response.IsSuccessStatusCode)
             {
+                PorkbunApiResponse? apiResponse = await response.Content.ReadFromJsonAsync<PorkbunApiResponse>();
                 if (apiResponse?.YourIP is not null)
                 {
                     return apiResponse.YourIP;
                 }
-
                 return string.Empty;
             }
 
-            throw new Exception(apiResponse?.Message ?? $"HTTP Error {response.StatusCode}");
+            throw new Exception($"{(int)response.StatusCode} {response.StatusCode}. Response: {await response.Content.ReadAsStringAsync()}");
         }
 
         public async Task<IEnumerable<Record>?> GetRecords(string domain)
@@ -68,14 +67,14 @@ namespace PorkbunDynamicDNS
             };
 
             HttpResponseMessage response = await _client.PostAsJsonAsync(id.HasValue ? $"dns/retrieve/{domain}/{id}" : $"dns/retrieve/{domain}", body);
-            PorkbunApiResponse? apiResponse = await response.Content.ReadFromJsonAsync<PorkbunApiResponse>();
 
             if (response.IsSuccessStatusCode)
             {
+                PorkbunApiResponse? apiResponse = await response.Content.ReadFromJsonAsync<PorkbunApiResponse>();
                 return apiResponse?.Records;
             }
 
-            throw new Exception(apiResponse?.Message ?? $"HTTP Error {response.StatusCode}");
+            throw new Exception($"{(int)response.StatusCode} {response.StatusCode}. Response: {await response.Content.ReadAsStringAsync()}");
         }
 
         private async Task<PorkbunApiResponse?> CreateOrEditRecord(string domain, string subdomain, string ip, int? ttl = null, bool update = false)
@@ -91,14 +90,14 @@ namespace PorkbunDynamicDNS
             };
 
             HttpResponseMessage response = await _client.PostAsJsonAsync(update ? $"dns/editByNameType/{domain}/A/{subdomain}" : $"dns/create/{domain}", body);
-            PorkbunApiResponse? apiResponse = await response.Content.ReadFromJsonAsync<PorkbunApiResponse>();
 
             if (response.IsSuccessStatusCode)
             {
+                PorkbunApiResponse? apiResponse = await response.Content.ReadFromJsonAsync<PorkbunApiResponse>();
                 return apiResponse;
             }
 
-            throw new Exception(apiResponse?.Message ?? $"HTTP Error {response.StatusCode}");
+            throw new Exception($"{(int)response.StatusCode} {response.StatusCode}. Response: {await response.Content.ReadAsStringAsync()}");
         }
     }
 }
