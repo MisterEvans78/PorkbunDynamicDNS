@@ -6,21 +6,26 @@ namespace PorkbunDynamicDNS
     public class PorkbunAPI
     {
         private HttpClient _client;
+        private string _apiKey;
+        private string _secretApiKey;
 
-        public PorkbunAPI()
+        public PorkbunAPI(string apiKey, string secretApiKey)
         {
             _client = new()
             {
                 BaseAddress = new Uri(ConfigurationManager.Get("API:Endpoint"))
             };
+
+            _apiKey = apiKey;
+            _secretApiKey = secretApiKey;
         }
 
         public async Task<string> GetIP()
         {
             PorkbunApiBody body = new()
             {
-                ApiKey = ConfigurationManager.Get("API:ApiKey"),
-                SecretApiKey = ConfigurationManager.Get("API:SecretApiKey")
+                ApiKey = _apiKey,
+                SecretApiKey = _secretApiKey
             };
 
             HttpResponseMessage response = await _client.PostAsJsonAsync("ping", body);
@@ -62,8 +67,8 @@ namespace PorkbunDynamicDNS
         {
             PorkbunApiBody body = new()
             {
-                ApiKey = ConfigurationManager.Get("API:ApiKey"),
-                SecretApiKey = ConfigurationManager.Get("API:SecretApiKey")
+                ApiKey = _apiKey,
+                SecretApiKey = _secretApiKey
             };
 
             HttpResponseMessage response = await _client.PostAsJsonAsync(id.HasValue ? $"dns/retrieve/{domain}/{id}" : $"dns/retrieve/{domain}", body);
@@ -81,8 +86,8 @@ namespace PorkbunDynamicDNS
         {
             PorkbunApiBody body = new()
             {
-                ApiKey = ConfigurationManager.Get("API:ApiKey"),
-                SecretApiKey = ConfigurationManager.Get("API:SecretApiKey"),
+                ApiKey = _apiKey,
+                SecretApiKey = _secretApiKey,
                 Name = !update ? subdomain : null,
                 Type = !update ? "A" : null,
                 Content = ip,
