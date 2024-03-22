@@ -82,19 +82,19 @@ namespace PorkbunDynamicDNS
             throw new Exception($"{(int)response.StatusCode} {response.StatusCode}. Response: {await response.Content.ReadAsStringAsync()}");
         }
 
-        private async Task<PorkbunApiResponse?> CreateOrEditRecord(string domain, string subdomain, string ip, int? ttl = null, bool update = false)
+        private async Task<PorkbunApiResponse?> CreateOrEditRecord(string domain, string subdomain, string ip, int? ttl = null, bool edit = false)
         {
             PorkbunApiBody body = new()
             {
                 ApiKey = _apiKey,
                 SecretApiKey = _secretApiKey,
-                Name = !update ? subdomain : null,
-                Type = !update ? "A" : null,
+                Name = !edit ? subdomain : null,
+                Type = !edit ? "A" : null,
                 Content = ip,
                 Ttl = ttl.HasValue ? ttl.ToString() : null
             };
 
-            HttpResponseMessage response = await _client.PostAsJsonAsync(update ? $"dns/editByNameType/{domain}/A/{subdomain}" : $"dns/create/{domain}", body);
+            HttpResponseMessage response = await _client.PostAsJsonAsync(edit ? $"dns/editByNameType/{domain}/A/{subdomain}" : $"dns/create/{domain}", body);
 
             if (response.IsSuccessStatusCode)
             {

@@ -7,8 +7,17 @@ Console.WriteLine($"Domain: {domain}\nSubdomains: {string.Join(", ", subdomains)
 
 PorkbunAPI porkbunAPI = new PorkbunAPI(ConfigurationManager.Get("API:ApiKey"), ConfigurationManager.Get("API:SecretApiKey"));
 
-string ip = await porkbunAPI.GetIP();
-Console.WriteLine($"IP Address: {ip}");
+string ip = string.Empty;
+try
+{
+    ip = await porkbunAPI.GetIP();
+    Console.WriteLine($"IP address: {ip}");
+}
+catch (Exception ex)
+{
+    Console.WriteLine("Error when retrieving IP address: " + ex.Message);
+    Environment.Exit(-1);
+}
 
 IEnumerable<Record>? records = (await porkbunAPI.GetRecords(domain))?.Where(r => r.Type == "A");
 
@@ -26,7 +35,7 @@ foreach (string subdomain in subdomains)
             }
             else
             {
-                Console.WriteLine($"{host}: Already up to date.");
+                Console.WriteLine($"{host}: Already up-to-date.");
             }
         }
         else
