@@ -2,17 +2,16 @@
 
 namespace PorkbunDynamicDNS
 {
-    public class ConfigurationManager
+    public static class ConfigurationManager
     {
         private static readonly IConfiguration AppSettings;
 
         static ConfigurationManager()
         {
-            var builder = new ConfigurationBuilder()
+            AppSettings = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
-                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
-
-            AppSettings = builder.Build();
+                .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+                .Build();
         }
         public static string Get(string key)
         {
