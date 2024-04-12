@@ -9,11 +9,11 @@ namespace PorkbunDynamicDNS
         private string _apiKey;
         private string _secretApiKey;
 
-        public PorkbunAPI(string apiKey, string secretApiKey)
+        public PorkbunAPI(string baseAddress, string apiKey, string secretApiKey)
         {
             _client = new()
             {
-                BaseAddress = new Uri(ConfigurationManager.Get("API:Endpoint"))
+                BaseAddress = new Uri(baseAddress)
             };
 
             _apiKey = apiKey;

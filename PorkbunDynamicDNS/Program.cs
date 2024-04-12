@@ -5,7 +5,9 @@ string domain = ConfigurationManager.Get("Domain");
 string[] subdomains = ConfigurationManager.Get("Subdomains").Split(',');
 Console.WriteLine($"Domain: {domain}\nSubdomains: {string.Join(", ", subdomains)}");
 
-PorkbunAPI porkbunAPI = new PorkbunAPI(ConfigurationManager.Get("API:ApiKey"), ConfigurationManager.Get("API:SecretApiKey"));
+PorkbunAPI porkbunAPI = new PorkbunAPI(ConfigurationManager.Get("API:BaseAddress"),
+                                       ConfigurationManager.Get("API:ApiKey"),
+                                       ConfigurationManager.Get("API:SecretApiKey"));
 
 string ip = string.Empty;
 try
